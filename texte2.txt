@@ -1,0 +1,30 @@
+O_DIRECT (Depuis Linux 2.4.10)
+Essayer de minimiser les effets du cache d'entrée-sortie sur ce fichier. Ceci dégradera en général les performances, mais est utilisé dans des situations spéciales, lorsque les applications ont leur propres caches. Les entrées-sorties dans le fichier se font directement depuis l'espace utilisateur, elles sont synchrones (à la fin de read(2) ou write(2), les données ont obligatoirement été transférées). Voir NOTES plus loin pour une discussion approfondie.
+Une interface à la sémantique similaire (mais dépréciée) pour les périphériques de type bloc est décrite à la page raw(8).
+
+O_DIRECTORY
+Si pathname n'est pas un répertoire, l'ouverture échoue. Cet attribut est spécifique à Linux et fut ajouté dans la version 2.1.126 du noyau, pour éviter des problèmes de dysfonctionnement si opendir(3) est invoqué sur une FIFO ou un périphérique de bande. Cet attribut ne devrait jamais être utilisé ailleurs que dans l'implémentation de opendir(3).
+O_EXCL
+S'assurer que cet appel crée le fichier : si cet attribut est spécifié en conjonction avec O_CREAT et si le fichier pathname existe déjà, open() échouera. Le comportement de O_EXCL est indéterminé si O_CREAT n'est pas spécifié.
+Lorsque ces deux attributs sont spécifiés, les liens symboliques ne sont pas suivis : si pathname est un lien symbolique, open() échouera quelque soit l'endroit où pointe le lien symbolique.
+
+O_EXCL n'est pas pris en charge sur les systèmes de fichiers NFS version 2 (NFSv2) ou sous Linux avant le noyau 2.6. Il est pris en charge depuis Linux 2.6 avec NFSv3 ou plus récent. Dans les environnements où la prise en charge de O_EXCL pour NFS n'est pas fournie, les programmes qui ont besoin de cette fonctionnalité pour verrouiller des tâches risquent de rencontrer une concurrence critique (race condition). Les programmes portables qui veulent effectuer un verrouillage fichier atomique en utilisant un fichier verrou et qui doivent éviter la dépendance de la prise en charge NFS pour O_EXCL peuvent créer un fichier unique sur le même système de fichiers (par exemple, avec le PID et le nom de l'hôte), et utiliser link(2) pour créer un lien sur un fichier de verrouillage. Si link(2) renvoie 0, le verrouillage est réussi. Sinon, utilisez stat(2) sur ce fichier unique pour vérifier si le nombre de liens a augmenté jusqu'à 2, auquel cas le verrouillage est également réussi.
+
+O_LARGEFILE
+(LFS) (Ndt : Large Files System) Autoriser l'ouverture des fichiers dont la taille ne peut pas être représentée avec un off_t (mais qui peut l'être avec un off64_t). La macro _LARGEFILE64_SOURCE doit être définie afin d'obtenir cette définition. Donner la valeur 64 à la macro de test de fonctionnalité (plutôt que d'utiliser O_LARGEFILE) _FILE_OFFSET_BITS est la méthode préférée pour accéder à de gros fichiers sur les systèmes 32 bits (voir feature_test_macros(7)).
+O_NOATIME (Depuis Linux 2.6.8)
+Ne pas mettre à jour l'horodatage du dernier accès au fichier (st_atime dans l'inœud) lorsque celui-ci est lu avec read(2). Cet attribut existe pour les programmes d'indexation ou de sauvegarde où son utilisation peut réduire de manière significative l'activité sur le disque. Cet attribut peut ne pas exister sur tous les systèmes de fichiers. Un exemple est NTFS où le serveur maintient l'horodatage d'accès
+O_NOCTTY
+Si pathname correspond à un périphérique de terminal --- voir tty(4) ---, il ne deviendra pas le terminal contrôlant le processus même si celui-ci n'est attaché à aucun autre terminal.
+O_NOFOLLOW
+Si pathname est un lien symbolique, l'ouverture échoue. Ceci est une extension FreeBSD, qui fut ajoutée à Linux dans la version 2.1.126. Les liens symboliques se trouvant dans le chemin d'accès proprement dit seront suivis normalement.
+O_NONBLOCK ou O_NDELAY
+Le fichier est ouvert en mode « non bloquant ». Ni la fonction open() ni aucune autre opération ultérieure sur ce fichier ne laissera le processus appelant en attente. Pour la manipulation des FIFO (tubes nommés), voir également fifo(7). Pour une discussion sur l'effet de O_NONBLOCK conjointement aux verrouillages de fichier impératifs et aux baux de fichiers, voir fcntl(2).
+O_SYNC
+Le fichier est ouvert en écriture synchronisée. Chaque appel à write(2) sur le fichier bloquera le processus appelant jusqu'à ce que les données aient été écrites physiquement sur le support matériel. Mais voir la section NOTES plus bas.
+O_TRUNC
+Si le fichier existe, est un fichier régulier, et est ouvert en écriture (O_RDWR ou O_WRONLY), il sera tronqué à une longueur nulle. Si le fichier est une FIFO ou un périphérique terminal, l'attribut O_TRUNC est ignoré. Sinon, le comportement de O_TRUNC n'est pas précisé. Sur de nombreuses versions de Linux, il sera ignoré ; sur d'autres versions il déclenchera une erreur).
+Certains de ces attributs optionnels peuvent être modifiés par la suite avec la fonction fcntl(2).
+
+creat() est équivalent à open() avec l'attribut flags égal à O_CREAT | O_WRONLY | O_TRUNC .  
+
