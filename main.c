@@ -5,33 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 19:04:20 by gozsertt          #+#    #+#             */
-/*   Updated: 2019/11/25 21:39:40 by gozsertt         ###   ########.fr       */
+/*   Created: 2019/11/11 15:33:37 by tguilbar          #+#    #+#             */
+/*   Updated: 2019/11/26 16:18:12 by gozsertt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int main(void)
+int	main(int ac, char **av)
 {
-	int fd1;
-	int fd2;
-	char *linefd1;
-	char *linefd2;
-	int i;
-	int j;
+	char	*string;
+	int		fd;
+	int		fd1;
+	int		fd2;
+	int		ret;
 
-	fd1 = open("./texte1", O_RDONLY);
-	fd2 = open("./texte2", O_RDONLY); 
-	i = 1;
-	j = 1;
-	while (i > 0 || j > 0)
+	if (ac == 4)
 	{
-		i = get_next_line(fd1, &linefd1);
-		j = get_next_line(fd2, &linefd2);
-		printf("FD 1 = %s\n", linefd1);
-		printf("FD 2 = %s\n", linefd2);
+		fd = open(av[1] ,O_RDONLY);
+		fd1 = open(av[2] ,O_RDONLY);
+		fd2 = open(av[3] ,O_RDONLY);
+		ret = get_next_line(fd, &string);
+		printf("%s\n", string);
+		free(string);
+		ret = get_next_line(fd1, &string);
+		printf("%s\n", string);
+		free(string);
+		ret = get_next_line(fd2, &string);
+		printf("%s\n", string);
+		free(string);
+		ret = get_next_line(fd, &string);
+		printf("%s\n", string);
+		free(string);
+		ret = get_next_line(fd1, &string);
+		printf("%s\n", string);
+		free(string);
+		ret = get_next_line(fd2, &string);
+		printf("%s\n", string);
+		free(string);
+		return (ret);
 	}
-	return(0);
+	else
+	{
+		ret = 1;
+		fd = open(av[1] ,O_RDONLY);
+		while (ret == 1)
+		{
+			ret = get_next_line(fd, &string);
+			if (ret == 1)
+				printf("%s\n", string);
+			else if (ret == 0)
+				printf("%s", string);
+			free(string);
+			string = NULL;
+		}
+		close(fd);
+		return (ret);
+	}
+	return (0);
 }

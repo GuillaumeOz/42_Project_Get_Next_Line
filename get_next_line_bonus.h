@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:52:08 by gozsertt          #+#    #+#             */
-/*   Updated: 2019/11/26 17:52:01 by gozsertt         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:53:50 by gozsertt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -29,7 +29,7 @@ typedef struct		s_gnl
 	struct s_gnl	*prev;
 }					t_gnl;
 
-typedef struct		s_vector 
+typedef struct		s_vector
 {
 	char			*str;
 	size_t			len;
