@@ -6,7 +6,7 @@
 /*   By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 14:52:08 by gozsertt          #+#    #+#             */
-/*   Updated: 2019/11/26 17:52:01 by gozsertt         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:12:17 by gozsertt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@
 # define VCT_DEFSIZE	128
 # define VCT_DEFQUART	32
 
-typedef struct		s_gnl
+typedef struct			s_gnl
 {
-	struct s_vector	*vct;
-	int				fd;
-	struct s_gnl	*next;
-	struct s_gnl	*prev;
-}					t_gnl;
+	struct s_vector		*vct;
+	int					fd;
+	struct s_gnl		*next;
+	struct s_gnl		*prev;
+}						t_gnl;
 
-typedef struct		s_vector 
+typedef struct			s_vector
 {
-	char			*str;
-	size_t			len;
-	size_t			size;
-	size_t			quart;
-}					t_vector;
+	char				*str;
+	size_t				len;
+	size_t				size;
+	size_t				quart;
+}						t_vector;
 
 t_vector				*gnl_vct_new(size_t size);
 int						gnl_vct_appnstr(t_vector *vct, char *addens, size_t n);

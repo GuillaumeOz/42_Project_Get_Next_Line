@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:41:14 by gozsertt          #+#    #+#             */
-/*   Updated: 2019/11/26 11:34:33 by gozsertt         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:12:19 by gozsertt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static t_gnl		*fdselect(t_gnl **rootp, int fd)
 {
@@ -87,9 +87,9 @@ static char			*gnl_strndup(const char *src, int len)
 	return (ret);
 }
 
-int	get_next_line(int fd,char **line)
+int					get_next_line(int fd, char **line)
 {
-	static	t_gnl	 *root;
+	static	t_gnl	*root;
 	t_gnl			*head;
 	char			buf[BUFFER_SIZE];
 	int				ret;
@@ -108,10 +108,8 @@ int	get_next_line(int fd,char **line)
 		gnl_vct_appnstr(head->vct, buf, ret);
 	i = gnl_strnchr_idx(head->vct->str, '\n', head->vct->len, 2);
 	*line = (i == 0 ? gnl_strndup("", 1) : gnl_strndup(head->vct->str, i));
-	if (ret != -1 && head->vct->str[i] == '\n')
-		ret = 1;
-	else if (ret != -1 && ((head->vct->len - (i + 1)) == 0))
-		ret = 0;
+	if (ret != -1)
+		ret = (head->vct->str[i] == '\n') ? 1 : 0;
 	gnl_vct_cutnfrom(head->vct, 0, i + 1);
 	if (head->vct->len == 0)
 		gnl_freenode(&root, head->fd, head);

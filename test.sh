@@ -6,7 +6,7 @@
 #    By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/26 13:22:27 by gozsertt          #+#    #+#              #
-#    Updated: 2019/11/26 16:32:02 by gozsertt         ###   ########.fr        #
+#    Updated: 2019/11/27 14:19:19 by gozsertt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,15 @@ do
 	then
     	printf "BUFFER_SIZE = $i ... Not Good, there are diff baby... :'(\n"
 	fi
-	sleep 2
+	sleep 3
+	echo ========================= LEAK TEST ==================================
+	valgrind ./a.out main_part_test.txt > mainlog.txt 2>&1
+	cat mainlog.txt |grep "definitely lost:"
+	cat mainlog.txt |grep "indirectly lost:"
+	printf "If bytes == 0, and...\n"
+	printf "If blocks == 0, there are no leaks baby ! ;)\n"
+	sleep 3
+	rm -Rf mainlog.txt
 	rm -Rf main_part_test.txt
 	((nbtext+=1))
 	done
@@ -63,7 +71,15 @@ do
 	echo "If the 'YYY' line is the last..."
 	sleep 1
 	echo "Its OKAY !"
-	sleep 2
+	sleep 3
+	echo ========================= LEAK TEST ==================================
+	valgrind ./a.out "text1.txt" "text2.txt" "text3.txt" > bonuslog.txt 2>&1
+	cat bonuslog.txt |grep "definitely lost:"
+	cat bonuslog.txt |grep "indirectly lost:"
+	printf "If bytes == 0, and...\n"
+	printf "If blocks == 0, there are no leaks baby ! ;)\n"
+	sleep 3
+	rm -Rf bonuslog.txt
 	rm -Rf bonus_part_test.txt
 	echo ======================================================================
 	((i+=30))

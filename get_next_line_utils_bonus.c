@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gozsertt <gozsertt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 12:40:03 by gozsertt          #+#    #+#             */
-/*   Updated: 2019/11/26 12:11:31 by gozsertt         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:11:08 by gozsertt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-t_vector		*gnl_vct_new(size_t size)
+t_vector	*gnl_vct_new(size_t size)
 {
-	t_vector		*vct;
-	size_t			i;
+	t_vector	*vct;
+	size_t		i;
 
 	size += 1;
 	if (!(vct = malloc(sizeof(t_vector))))
@@ -37,10 +37,10 @@ t_vector		*gnl_vct_new(size_t size)
 	return (vct);
 }
 
-int				gnl_vct_extend(t_vector *vct, size_t expected_len)
+int			gnl_vct_extend(t_vector *vct, size_t expected_len)
 {
-	char			*tmp;
-	size_t			i;
+	char	*tmp;
+	size_t	i;
 
 	if (vct == NULL || vct->size == 0)
 		return (SUCCESS);
@@ -63,10 +63,10 @@ int				gnl_vct_extend(t_vector *vct, size_t expected_len)
 	return (SUCCESS);
 }
 
-int				gnl_vct_appnstr(t_vector *vct, char *addens, size_t n)
+int			gnl_vct_appnstr(t_vector *vct, char *addens, size_t n)
 {
-	unsigned long		i;
-	size_t				expected_len;
+	unsigned long	i;
+	size_t			expected_len;
 
 	if (addens == NULL || vct == NULL || vct->str == NULL || n <= 0)
 		return (SUCCESS);
@@ -87,11 +87,11 @@ int				gnl_vct_appnstr(t_vector *vct, char *addens, size_t n)
 	return (SUCCESS);
 }
 
-int				gnl_vct_cutnfrom(t_vector *vct, size_t idx, size_t n)
+int			gnl_vct_cutnfrom(t_vector *vct, size_t idx, size_t n)
 {
-	size_t			i;
-	size_t			j;
-	size_t			newlen;
+	size_t	i;
+	size_t	j;
+	size_t	newlen;
 
 	if (vct == NULL || vct->str == NULL || idx >= vct->len)
 		return (SUCCESS);
@@ -110,9 +110,9 @@ int				gnl_vct_cutnfrom(t_vector *vct, size_t idx, size_t n)
 	return (SUCCESS);
 }
 
-int					gnl_strnchr_idx(char *s, char c, size_t n, int mode)
+int			gnl_strnchr_idx(char *s, char c, size_t n, int mode)
 {
-	size_t				i;
+	size_t	i;
 
 	if (!s)
 		return (-1);
